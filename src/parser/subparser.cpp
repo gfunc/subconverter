@@ -1128,6 +1128,20 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
                     singleproxy["ws-headers"]["Edge"] >>= edge;
                 }
                 break;
+            case "httpupgrade"_hash:
+                if(singleproxy["ws-opts"].IsDefined())
+                {
+                    path = singleproxy["ws-opts"]["path"].IsDefined() ? safe_as<std::string>(singleproxy["ws-opts"]["path"]) : "/";
+                    singleproxy["ws-opts"]["headers"]["Host"] >>= host;
+                    singleproxy["ws-opts"]["headers"]["Edge"] >>= edge;
+                }
+                else
+                {
+                    path = singleproxy["ws-path"].IsDefined() ? safe_as<std::string>(singleproxy["ws-path"]) : "/";
+                    singleproxy["ws-headers"]["Host"] >>= host;
+                    singleproxy["ws-headers"]["Edge"] >>= edge;
+                }
+                break;
             case "h2"_hash:
                 singleproxy["h2-opts"]["path"] >>= path;
                 singleproxy["h2-opts"]["host"][0] >>= host;

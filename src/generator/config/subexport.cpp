@@ -344,6 +344,28 @@ void proxyToClash(std::vector<Proxy> &nodes, YAML::Node &yamlnode, const ProxyGr
                         singleproxy["ws-headers"]["Edge"] = x.Edge;
                 }
                 break;
+            case "httpupgrade"_hash:
+                singleproxy["network"] = "ws";
+                singleproxy["ws-opts"]["v2ray-http-upgrade"] = true;
+                singleproxy["ws-opts"]["v2ray-http-upgrade-fast-open"] = true;
+                if(ext.clash_new_field_name)
+                {
+                    singleproxy["ws-opts"]["path"] = x.Path;
+                    if(!x.Host.empty())
+                        singleproxy["ws-opts"]["headers"]["Host"] = x.Host;
+                    if(!x.Edge.empty())
+                        singleproxy["ws-opts"]["headers"]["Edge"] = x.Edge;
+
+                }
+                else
+                {
+                    singleproxy["ws-path"] = x.Path;
+                    if(!x.Host.empty())
+                        singleproxy["ws-headers"]["Host"] = x.Host;
+                    if(!x.Edge.empty())
+                        singleproxy["ws-headers"]["Edge"] = x.Edge;
+                }
+                break;
             case "http"_hash:
                 singleproxy["network"] = x.TransferProtocol;
                 singleproxy["http-opts"]["method"] = "GET";
